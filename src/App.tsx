@@ -1,24 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from "react";
+import "./App.css";
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Layout, Menu, Button } from "antd";
+import { NavLink } from "react-router-dom";
+import {start} from "qiankun";
+const { Header, Sider, Content } = Layout;
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Layout className="layout-container">
+        <Sider trigger={null} collapsible collapsed={collapsed}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            defaultSelectedKeys={["1"]}
+            items={[
+              {
+                key: "1",
+                icon: <UserOutlined />,
+                label: <NavLink to="/app-vue">vue应用</NavLink>,
+              },
+              {
+                key: "2",
+                icon: <VideoCameraOutlined />,
+                label: <NavLink to="/app-react">react应用</NavLink>,
+              },
+            ]}
+          />
+        </Sider>
+        <Layout className="layout-main">
+          <Header className="header">
+            <Button
+              type="text"
+              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+              onClick={() => setCollapsed(!collapsed)}
+              className="collapse-btn"
+            />
+          </Header>
+          <Content id="container" className="layout-content">
+            Content
+          </Content>
+        </Layout>
+      </Layout>
     </div>
   );
 }
